@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { GetRoomsAPIResponse } from './types/get-room-response';
 
-export function UseRooms() {
+export function useRooms() {
   return useQuery({
     queryKey: ['get-rooms'],
     queryFn: async () => {

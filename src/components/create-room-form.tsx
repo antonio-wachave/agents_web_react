@@ -18,15 +18,18 @@ import {
 } from './ui/form';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
+import { useCreateRooms } from '../http/use-create-rooms';
 
 const createRoomSchema = z.object({
   name: z.string().min(1, 'O nome da sala é obrigatório'),
-  description: z.string().optional(),
+  description: z.string(),
 });
 
 type CreateRoomFormData = z.infer<typeof createRoomSchema>;
 
 export function CreateRoomForm() {
+  const { mutateAsync: createRoom } = useCreateRooms();
+
   const createRoomForm = useForm<CreateRoomFormData>({
     resolver: zodResolver(createRoomSchema),
     defaultValues: {
@@ -35,8 +38,9 @@ export function CreateRoomForm() {
     },
   });
 
-  function handleCreateRoom(data: CreateRoomFormData) {
-    console.log(data);
+  async function handleCreateRoom({ name, description }: CreateRoomFormData) {
+    await createRoom({ name, description });
+    await createRoomForm.reset();
     // Aqui você pode fazer a chamada para criar a sala, por exemplo, enviando os dados para uma API
   }
 
@@ -79,7 +83,10 @@ export function CreateRoomForm() {
                   <FormItem>
                     <FormLabel>Descricao</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Digite a Descricao da sala" />
+                      <Input
+                        {...field}
+                        placeholder="Digite a Descricao da sala"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { UseRooms } from '../http/use-rooms';
+import { useRooms } from '../http/use-rooms';
 import {
   Card,
   CardContent,
@@ -13,7 +13,7 @@ import { Badge } from '../components/ui/badge';
 import { dayjs } from '../lib/dayjs';
 
 export function RoomList() {
-  const { data, isLoading } = UseRooms();
+  const { data, isLoading } = useRooms();
 
   return (
     <Card>
