@@ -1,6 +1,6 @@
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 import { Button } from '../components/ui/button';
 import {
   Card,
@@ -8,7 +8,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '../components/ui/card'
+} from '../components/ui/card';
 import {
   Form,
   FormControl,
@@ -16,8 +16,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../components/ui/form'
-import { Textarea } from '../components/ui/textarea'
+} from '../components/ui/form';
+import { Textarea } from '../components/ui/textarea';
 import { useCreateQuestion } from '../http/use-create-question';
 
 // Esquema de validação no mesmo arquivo conforme solicitado
@@ -27,30 +27,29 @@ const createQuestionSchema = z.object({
     .min(1, 'Pergunta é obrigatória')
     .min(10, 'Pergunta deve ter pelo menos 10 caracteres')
     .max(500, 'Pergunta deve ter menos de 500 caracteres'),
-})
+});
 
-type CreateQuestionFormData = z.infer<typeof createQuestionSchema>
+type CreateQuestionFormData = z.infer<typeof createQuestionSchema>;
 
 type QuestionFormProps = {
   roomId: string;
-}
+};
 
 export function QuestionForm({ roomId }: QuestionFormProps) {
-
-  const { mutateAsync: createQuestion } = useCreateQuestion(roomId)
+  const { mutateAsync: createQuestion } = useCreateQuestion(roomId);
 
   const form = useForm<CreateQuestionFormData>({
     resolver: zodResolver(createQuestionSchema),
     defaultValues: {
       question: '',
     },
-  })
+  });
 
   async function handleCreateQuestion(data: CreateQuestionFormData) {
     await createQuestion(data);
   }
 
-  const { isSubmitting } = form.formState
+  const { isSubmitting } = form.formState;
 
   return (
     <Card>
@@ -92,5 +91,5 @@ export function QuestionForm({ roomId }: QuestionFormProps) {
         </Form>
       </CardContent>
     </Card>
-  )
+  );
 }
